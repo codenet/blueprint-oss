@@ -2,45 +2,64 @@
 
 from bp import *
 
-aze = extract(
+sn = extract(
+  text_equals('Soyadi/Surname')('sn_label'),
+  is_top_down_label_value_pair('sn_label', 'sn')
+)
+
+fn = extract(
+  text_equals('Adi, atasinin adi/Given name, patronymic', taper=4)('fn_label'),
+  is_top_down_label_value_pair('fn_label', 'fn')
+)
+
+pob = extract(
+  text_equals('Doguldugu yer/Place of birth', taper=8)('pob_label'),
+  is_top_down_label_value_pair('pob_label', 'pob')
+)
+
+dob = extract(
+  text_equals('Doguldugu tarix/Date of birth', taper=4)('dob_label'),
+  is_date('dob'),
+  is_top_down_label_value_pair('dob_label', 'dob')
+)
+
+doe = extract(
+  is_date('doe'),
+  is_top_down_label_value_pair('doe_label', 'doe'),
+  text_equals('Etibarliliq muddati/Date of expiry', taper=4)('doe_label')
+)
+
+doi  = extract(
+  text_equals('Verilma tarixi/Date of issue', taper=4)('doi_label'),
+  is_date('doi'),
+  is_top_down_label_value_pair('doi_label', 'doi')
+)
+
+sex = extract(
+  is_top_down_label_value_pair('sex_label', 'sex'),
+  text_equals('Cinsi/Sex', taper=3)('sex_label')
+)
+
+aze = combine(
+  # sn, fn, doe, dob, doi, sex, pob
+  pob
   # text_equals('Tip/Type')('type_label'),
   # text_equals('Olkenin kodu/Code of State')('state_label'),
   # text_equals('Pasportun nomrasi/Passport No')('num_label'),
-  text_equals('Soyadi/Surname')('sn_label'),
-  text_equals('Adi, atasinin adi/Given name, patronymic')('fn_label'),
   # text_equals('Vetendasligi/Nationality')('nation_label'),
-  #1 text_equals('Doguldugu tarix/Date of birth')('dob_label'),
   # text_equals('Fardi identifikasiya nomrasi/Personal No')('personal_no_label'),
-  # text_equals('Cinsi/Sex')('sex_label'),
-  text_equals('Doguldugu yer/Place of birth')('pob_label'),
-  # text_equals('Verilma tarixi/Date of issue')('doi_label'),
-  # text_equals('Etibarliliq muddati/Date of expiry')('doe_label'),
   # text_equals('Pasportu veran orqan/Issuing authority')('auth_label'),
 
-  #1 is_date('dob'),
-  # is_date('doi'),
-  # is_date('doe'),
 
   # text_equals('AZE')('state'),
   # is_top_down_label_value_pair('state_label', 'state'),
   # is_top_down_label_value_pair('num_label', 'num'),
 
-  is_top_down_label_value_pair('sn_label', 'sn'),
-  is_top_down_label_value_pair('fn_label', 'fn'),
   # is_top_down_label_value_pair('nation_label', 'nation'),
 
-  #1 is_top_down_label_value_pair('dob_label', 'dob'),
   # is_top_down_label_value_pair('personal_no_label', 'personal_no'),
-  # is_top_down_label_value_pair('sex_label', 'sex'),
-
-  is_top_down_label_value_pair('pob_label', 'pob'),
-
-  # is_top_down_label_value_pair('doi_label', 'doi'),
-  # is_top_down_label_value_pair('doe_label', 'doe'),
 
   # is_top_down_label_value_pair('auth_label', 'auth'),
-
-
 
   # row('type_label', 'state_label', 'num_label'),
   # row('dob_label', 'personal_no_label', 'sex_label'),
